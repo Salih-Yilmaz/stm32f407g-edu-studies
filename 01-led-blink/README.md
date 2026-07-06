@@ -58,11 +58,11 @@ while (1)
 
 {
 
-&#x20; HAL\_GPIO\_TogglePin(GPIOD, GPIO\_PIN\_15);
+HAL\_GPIO\_TogglePin(GPIOD, GPIO\_PIN\_15);
 
-&#x20; HAL\_Delay(500);
+HAL\_Delay(500);
 
-&#x20; MX\_USB\_HOST\_Process();
+MX\_USB\_HOST\_Process();
 
 }
 
