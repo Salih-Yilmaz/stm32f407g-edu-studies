@@ -1,106 +1,64 @@
-\# 01 - LED Blink
+# 01 - LED Blink
 
+This study is my first GPIO output application on the STM32F407G Discovery board.
 
+## Objective
 
-Bu çalışma, STM32F407G Discovery kartı üzerinde ilk GPIO output uygulamasıdır.
+To learn STM32CubeIDE, project creation, code uploading, and basic GPIO usage by blinking the onboard LED at specific time intervals.
 
+## Topics to Learn
 
+* STM32CubeIDE project creation
 
-\## Amaç
+* GPIO Output
 
+* HAL_GPIO_WritePin
 
+* HAL_Delay
 
-Kart üzerindeki LED'i belirli aralıklarla yakıp söndürerek STM32CubeIDE, proje oluşturma, kod yükleme ve temel GPIO kullanımını öğrenmek.
+* main.c structure
 
+* Build and Debug/Run operations
 
+## Hardware
 
-\## Öğrenilecek Konular
+* STM32F407G Discovery Board
 
+* USB cable
 
+## First Application Result
 
-\- STM32CubeIDE proje oluşturma
+The Karpuz.go EDU001 blinkLED project was imported into STM32CubeIDE. The project was built and uploaded to the STM32F407G Discovery board. When the code was executed, the onboard blue LED was observed blinking.
 
-\- GPIO Output
-
-\- HAL\_GPIO\_WritePin
-
-\- HAL\_Delay
-
-\- main.c yapısı
-
-\- Build ve Debug/Run işlemleri
-
-
-
-\## Donanım
-
-
-
-\- STM32F407G Discovery Board
-
-\- USB kablosu
-
-## İlk Uygulama Sonucu
-
-
-
-Karpuz.go EDU001 blinkLED projesi STM32CubeIDE içerisine import edildi. Proje build edildi ve STM32F407G Discovery karta yüklendi. Kod çalıştırıldığında kart üzerindeki mavi LED'in yanıp söndüğü gözlemlendi.
-
-
-
-\## Kodun Temel Mantığı
-
-
+## Core Code Logic
 
 ```c
-
 while (1)
-
 {
-
-HAL\_GPIO\_TogglePin(GPIOD, GPIO\_PIN\_15);
-
-HAL\_Delay(500);
-
-MX\_USB\_HOST\_Process();
-
+  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+  HAL_Delay(500);
+  MX_USB_HOST_Process();
 }
-
 ```
 
+In this code, the `HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15)` function toggles the state of pin 15 on GPIO port D. Since the blue LED is connected to this pin, it turns off if it is on and turns on if it is off.
 
+The `HAL_Delay(500)` function creates a 500 ms delay. When the delay value is changed, the blinking speed of the LED also changes.
 
-Bu kodda `HAL\_GPIO\_TogglePin(GPIOD, GPIO\_PIN\_15)` fonksiyonu GPIOD portundaki 15 numaralı pinin durumunu tersine çevirir. Bu pine bağlı olan mavi LED yanıyorsa söner, sönükse yanar.
+## Experiments
 
+* With `HAL_Delay(500)`, the LED changed state approximately every 0.5 seconds.
 
+* With `HAL_Delay(5000)`, the LED changed state much more slowly, approximately every 5 seconds.
 
-`HAL\_Delay(500)` fonksiyonu 500 ms bekleme oluşturur. Delay değeri değiştirildiğinde LED'in yanıp sönme hızı da değişir.
+## What I Learned
 
+* A ready-made project was imported into STM32CubeIDE.
 
+* The project was built successfully.
 
-\## Yapılan Deneyler
+* The code was uploaded to the STM32F407G board using Debug/Run.
 
+* It was observed that the `while(1)` infinite loop is the main execution structure in embedded systems.
 
-
-\* `HAL\_Delay(500)` ile LED yaklaşık yarım saniyede bir durum değiştirdi.
-
-\* `HAL\_Delay(5000)` ile LED'in çok daha yavaş, yaklaşık 5 saniyede bir durum değiştirdiği gözlemlendi.
-
-
-
-\## Öğrenilenler
-
-
-
-\* STM32CubeIDE üzerinde hazır bir proje import edildi.
-
-\* Proje build edildi.
-
-\* Debug/Run ile STM32F407G karta kod yüklendi.
-
-\* `while(1)` sonsuz döngüsünün gömülü sistemlerde ana çalışma mantığı olduğu görüldü.
-
-\* GPIO pininin yazılım ile kontrol edilerek fiziksel LED'in davranışının değiştirilebildiği gözlemlendi.
-
-
-
+* It was observed that the behavior of a physical LED can be changed by controlling a GPIO pin through software.
