@@ -99,3 +99,23 @@ The LEDs blinked sequentially in the following order:
 | GPIO_PIN_14 | Red       |
 | GPIO_PIN_15 | Blue      |
 
+## Debugging Experiment
+
+In this experiment, a breakpoint was placed on the first `HAL_GPIO_WritePin()` line inside the `while(1)` loop.
+
+The program was started in Debug mode and executed step by step using `F6` / Step Over. It was observed that each GPIO command directly affected the physical LED on the STM32F407G Discovery board.
+
+### What I Observed
+
+* The program stopped at the breakpoint before executing the LED control line.
+* Using `F6`, the code was executed line by line.
+* When the `GPIO_PIN_SET` line was executed, the corresponding LED turned on.
+* When the `GPIO_PIN_RESET` line was executed, the corresponding LED turned off.
+* This helped me understand the relationship between code execution and physical hardware behavior.
+
+### What I Learned
+
+* Breakpoints can be used to stop the program at a specific line.
+* `F6` / Step Over is used to execute the code line by line.
+* `F8` / Resume is used to continue normal program execution.
+* Debugging is useful when the code builds successfully but the program behavior needs to be observed in detail.
