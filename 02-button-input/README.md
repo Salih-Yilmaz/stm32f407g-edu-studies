@@ -1,19 +1,3 @@
-\# 01 - LED Blink
-
-
-
-This study is my first GPIO output application on the STM32F407G Discovery board.
-
-
-
-\## Objective
-
-
-
-To learn STM32CubeIDE, project creation, code uploading, and basic GPIO usage by blinking the onboard LED at specific time intervals.
-
-
-
 \# 02 - Button Input
 
 
