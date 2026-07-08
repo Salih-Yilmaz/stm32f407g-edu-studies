@@ -99,8 +99,3 @@ The LEDs blinked sequentially in the following order:
 | GPIO_PIN_14 | Red       |
 | GPIO_PIN_15 | Blue      |
 
-## Debugging Note
-
-During this experiment, a build error occurred because the function name was written incorrectly as `HAL_GPIO_WRITE_PIN`. The correct function name is `HAL_GPIO_WritePin`.
-
-This showed that C is case-sensitive and function names must be written exactly as defined.
