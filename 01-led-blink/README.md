@@ -62,3 +62,45 @@ The `HAL_Delay(500)` function creates a 500 ms delay. When the delay value is ch
 * It was observed that the `while(1)` infinite loop is the main execution structure in embedded systems.
 
 * It was observed that the behavior of a physical LED can be changed by controlling a GPIO pin through software.
+
+## Sequential LED Experiment
+
+In this experiment, the onboard LEDs were controlled sequentially using `HAL_GPIO_WritePin()`.
+
+```c
+while (1)
+{
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+  HAL_Delay(500);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+  HAL_Delay(500);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+  HAL_Delay(500);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+  HAL_Delay(500);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+
+  MX_USB_HOST_Process();
+}
+```
+
+The LEDs blinked sequentially in the following order:
+
+| GPIO Pin    | LED Color |
+| ----------- | --------- |
+| GPIO_PIN_12 | Yellow    |
+| GPIO_PIN_13 | Orange    |
+| GPIO_PIN_14 | Red       |
+| GPIO_PIN_15 | Blue      |
+
+## Debugging Note
+
+During this experiment, a build error occurred because the function name was written incorrectly as `HAL_GPIO_WRITE_PIN`. The correct function name is `HAL_GPIO_WritePin`.
+
+This showed that C is case-sensitive and function names must be written exactly as defined.
