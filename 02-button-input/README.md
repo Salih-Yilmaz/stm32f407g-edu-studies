@@ -18,11 +18,11 @@ The objective is to understand GPIO input by reading the onboard user button and
 
 
 
-\- STM32F407G Discovery Board
+\* STM32F407G Discovery Board
 
-\- Onboard user button
+\* Onboard user button
 
-\- Onboard LEDs
+\* Onboard LEDs
 
 
 
@@ -30,9 +30,9 @@ The objective is to understand GPIO input by reading the onboard user button and
 
 
 
-\- When the user button is pressed, the blue LED turns on.
+\* When the user button is pressed, the blue LED turns on.
 
-\- When the user button is released, the blue LED turns off.
+\* When the user button is released, the blue LED turns off.
 
 
 
@@ -40,13 +40,15 @@ The objective is to understand GPIO input by reading the onboard user button and
 
 
 
-\- GPIO Input
+\* GPIO Input
 
-\- HAL\_GPIO\_ReadPin
+\* HAL\_GPIO\_ReadPin
 
-\- Polling
+\* Polling
 
-\- Button state
+\* Button state
 
-\- Basic input-output control
+\* Basic input-output control
+
+
 
