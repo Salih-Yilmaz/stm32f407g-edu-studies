@@ -4,72 +4,80 @@ This study is my first GPIO output application on the STM32F407G Discovery board
 
 ## Objective
 
-To learn STM32CubeIDE, project creation, code uploading, and basic GPIO usage by blinking the onboard LED at specific time intervals.
+The objective of this study is to learn STM32CubeIDE project creation, code uploading, debugging, and basic GPIO output control by blinking the onboard LEDs.
+
+The Karpuz.go EDU001 blinkLED repository was used as a reference, but this project was recreated as my own STM32CubeIDE project for learning and portfolio documentation.
 
 ## Topics to Learn
 
 * STM32CubeIDE project creation
-
 * GPIO Output
-
+* HAL_GPIO_TogglePin
 * HAL_GPIO_WritePin
-
 * HAL_Delay
-
 * main.c structure
-
+* Preprocessor-based experiment selection
 * Build and Debug/Run operations
+* Basic hardware debugging
 
 ## Hardware
 
 * STM32F407G Discovery Board
-
 * USB cable
+* Onboard LEDs
 
-## First Application Result
+## Project Structure
 
-The Karpuz.go EDU001 blinkLED project was imported into STM32CubeIDE. The project was built and uploaded to the STM32F407G Discovery board. When the code was executed, the onboard blue LED was observed blinking.
+This folder contains both the documentation and the STM32CubeIDE project files.
+
+```text
+01-led-blink/
+  README.md
+  project/
+```
+
+The `project/` folder contains the STM32CubeIDE project source files.
+
+## Experiment Selection Logic
+
+Multiple LED experiments are included in the same project. Only one experiment is active at a time by changing the `ACTIVE_LED_EXPERIMENT` definition.
+
+```c
+#define LED_EXPERIMENT_TOGGLE     1
+#define LED_EXPERIMENT_WRITEPIN   2
+#define LED_EXPERIMENT_SEQUENCE   3
+
+#define ACTIVE_LED_EXPERIMENT LED_EXPERIMENT_TOGGLE
+```
+
+For example, to run the sequential LED experiment, the active experiment can be changed as follows:
+
+```c
+#define ACTIVE_LED_EXPERIMENT LED_EXPERIMENT_SEQUENCE
+```
 
 ## Core Code Logic
 
+The main loop uses conditional compilation to select the active LED experiment.
+
 ```c
 while (1)
 {
+#if ACTIVE_LED_EXPERIMENT == LED_EXPERIMENT_TOGGLE
+
   HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
   HAL_Delay(500);
-  MX_USB_HOST_Process();
-}
-```
 
-In this code, the `HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15)` function toggles the state of pin 15 on GPIO port D. Since the blue LED is connected to this pin, it turns off if it is on and turns on if it is off.
+#elif ACTIVE_LED_EXPERIMENT == LED_EXPERIMENT_WRITEPIN
 
-The `HAL_Delay(500)` function creates a 500 ms delay. When the delay value is changed, the blinking speed of the LED also changes.
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+  HAL_Delay(500);
 
-## Experiments
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+  HAL_Delay(500);
 
-* With `HAL_Delay(500)`, the LED changed state approximately every 0.5 seconds.
+#elif ACTIVE_LED_EXPERIMENT == LED_EXPERIMENT_SEQUENCE
 
-* With `HAL_Delay(5000)`, the LED changed state much more slowly, approximately every 5 seconds.
-
-## What I Learned
-
-* A ready-made project was imported into STM32CubeIDE.
-
-* The project was built successfully.
-
-* The code was uploaded to the STM32F407G board using Debug/Run.
-
-* It was observed that the `while(1)` infinite loop is the main execution structure in embedded systems.
-
-* It was observed that the behavior of a physical LED can be changed by controlling a GPIO pin through software.
-
-## Sequential LED Experiment
-
-In this experiment, the onboard LEDs were controlled sequentially using `HAL_GPIO_WritePin()`.
-
-```c
-while (1)
-{
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
   HAL_Delay(500);
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
@@ -86,9 +94,44 @@ while (1)
   HAL_Delay(500);
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 
+#endif
+
   MX_USB_HOST_Process();
 }
 ```
+
+## Experiment 1 - TogglePin
+
+In this experiment, the onboard blue LED is controlled using `HAL_GPIO_TogglePin()`.
+
+```c
+HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+HAL_Delay(500);
+```
+
+The `HAL_GPIO_TogglePin()` function changes the current state of the selected GPIO pin. If the LED is on, it turns off. If it is off, it turns on.
+
+With `HAL_Delay(500)`, the LED changes state approximately every 0.5 seconds.
+
+## Experiment 2 - WritePin
+
+In this experiment, the onboard blue LED is controlled explicitly using `HAL_GPIO_WritePin()`.
+
+```c
+HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+HAL_Delay(500);
+
+HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+HAL_Delay(500);
+```
+
+`GPIO_PIN_SET` turns the LED on, and `GPIO_PIN_RESET` turns the LED off.
+
+This experiment helped me understand the difference between toggling a pin and writing a specific logic state to a pin.
+
+## Experiment 3 - Sequential LED Control
+
+In this experiment, the onboard LEDs are controlled sequentially using `HAL_GPIO_WritePin()`.
 
 The LEDs blinked sequentially in the following order:
 
@@ -99,9 +142,11 @@ The LEDs blinked sequentially in the following order:
 | GPIO_PIN_14 | Red       |
 | GPIO_PIN_15 | Blue      |
 
+This experiment helped me understand how multiple GPIO output pins can be controlled one by one.
+
 ## Debugging Experiment
 
-In this experiment, a breakpoint was placed on the first `HAL_GPIO_WritePin()` line inside the `while(1)` loop.
+A breakpoint was placed on the first LED control line inside the `while(1)` loop.
 
 The program was started in Debug mode and executed step by step using `F6` / Step Over. It was observed that each GPIO command directly affected the physical LED on the STM32F407G Discovery board.
 
@@ -113,9 +158,18 @@ The program was started in Debug mode and executed step by step using `F6` / Ste
 * When the `GPIO_PIN_RESET` line was executed, the corresponding LED turned off.
 * This helped me understand the relationship between code execution and physical hardware behavior.
 
-### What I Learned
+## What I Learned
 
-* Breakpoints can be used to stop the program at a specific line.
-* `F6` / Step Over is used to execute the code line by line.
-* `F8` / Resume is used to continue normal program execution.
-* Debugging is useful when the code builds successfully but the program behavior needs to be observed in detail.
+* A new STM32CubeIDE project was created for the STM32F407G Discovery board.
+* GPIO pins can be configured as outputs to control onboard LEDs.
+* `HAL_GPIO_TogglePin()` changes the current output state of a pin.
+* `HAL_GPIO_WritePin()` writes a specific state to a GPIO pin.
+* `HAL_Delay()` can be used to create simple timing delays.
+* The `while(1)` loop is the main execution structure in embedded systems.
+* Multiple experiments can be kept in the same project using preprocessor definitions.
+* Build and Debug/Run operations were used to upload and test the code on real hardware.
+* Breakpoints and step-by-step debugging helped observe the connection between software instructions and physical hardware behavior.
+
+## Reference
+
+This study was inspired by the Karpuz.go EDU001 blinkLED example. The implementation in this repository was recreated and extended as a personal STM32F407G Discovery learning project.
