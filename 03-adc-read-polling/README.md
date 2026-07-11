@@ -34,6 +34,18 @@ In this project, a new STM32CubeIDE project was created. The ADC was configured 
 | --- | -------- | ----------- |
 | PA1 | ADC1_IN1 | Analog input |
 
+## Hardware Setup
+
+The potentiometer was connected as follows:
+
+| Potentiometer Pin | STM32F407G Discovery Connection |
+| ----------------- | ------------------------------- |
+| One outer pin     | 3V                              |
+| Middle pin        | PA1 / ADC1_IN1                  |
+| Other outer pin   | GND                             |
+
+![Potentiometer ADC connection]("C:\Users\salih\Desktop\potentiometer-connection.jpeg")
+
 ## Target Behavior
 
 The voltage applied to PA1 is converted into a digital ADC value.
