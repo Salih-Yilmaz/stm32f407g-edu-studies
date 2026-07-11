@@ -44,7 +44,7 @@ The potentiometer was connected as follows:
 | Middle pin        | PA1 / ADC1_IN1                  |
 | Other outer pin   | GND                             |
 
-![Potentiometer ADC connection]("C:\Users\salih\Desktop\potentiometer-connection.jpeg")
+![Potentiometer ADC connection](images/potentiometer-connection.jpeg)
 
 ## Target Behavior
 
